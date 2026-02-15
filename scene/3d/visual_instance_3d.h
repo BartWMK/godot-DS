@@ -133,6 +133,7 @@ private:
 	float transparency = 0.0f;
 
 	float lod_bias = 1.0;
+	RenderingServer::LODSelectionMode lod_selection_mode = RenderingServer::LOD_SELECTION_DEFAULT;
 
 	mutable HashMap<StringName, Variant> instance_shader_parameters;
 	mutable HashMap<StringName, StringName> instance_shader_parameter_property_remap;
@@ -186,6 +187,9 @@ public:
 
 	void set_lod_bias(float p_bias);
 	float get_lod_bias() const;
+
+	void set_lod_selection_mode(RenderingServer::LODSelectionMode p_mode);
+	RenderingServer::LODSelectionMode get_lod_selection_mode() const;
 
 	void set_gi_mode(GIMode p_mode);
 	GIMode get_gi_mode() const;

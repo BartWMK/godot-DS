@@ -412,6 +412,7 @@ public:
 		bool teleported = false;
 
 		float lod_bias;
+		RS::LODSelectionMode lod_selection_mode = RS::LOD_SELECTION_SPHERICAL;
 
 		bool ignore_occlusion_culling;
 		bool ignore_all_culling;
@@ -574,6 +575,7 @@ public:
 			lightmap = nullptr;
 			lightmap_cull_index = 0;
 			lod_bias = 1.0;
+			lod_selection_mode = RS::LOD_SELECTION_SPHERICAL;
 			ignore_occlusion_culling = false;
 			ignore_all_culling = false;
 
@@ -1060,6 +1062,7 @@ public:
 
 	virtual void instance_geometry_set_lightmap(RID p_instance, RID p_lightmap, const Rect2 &p_lightmap_uv_scale, int p_slice_index);
 	virtual void instance_geometry_set_lod_bias(RID p_instance, float p_lod_bias);
+	virtual void instance_geometry_set_lod_selection_mode(RID p_instance, RS::LODSelectionMode p_lod_selection_mode);
 
 	virtual void instance_geometry_set_shader_parameter(RID p_instance, const StringName &p_parameter, const Variant &p_value);
 	virtual void instance_geometry_get_shader_parameter_list(RID p_instance, List<PropertyInfo> *p_parameters) const;

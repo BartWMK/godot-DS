@@ -58,6 +58,9 @@
 			Changes how quickly the mesh transitions to a lower level of detail. A value of 0 will force the mesh to its lowest level of detail, a value of 1 will use the default settings, and larger values will keep the mesh in a higher level of detail at farther distances.
 			Useful for testing level of detail transitions in the editor.
 		</member>
+		<member name="lod_selection_mode" type="float" setter="set_lod_selection_mode" getter="get_lod_selection_mode" enum="GeometryInstance3D.LODSelectionMode" default="0">
+			Mode used for LOD level selection.
+		</member>
 		<member name="material_overlay" type="Material" setter="set_material_overlay" getter="get_material_overlay">
 			The material overlay for the whole geometry.
 			If a material is assigned to this property, it will be rendered on top of any other active material for all the surfaces.

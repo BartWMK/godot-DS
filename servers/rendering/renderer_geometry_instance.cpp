@@ -89,6 +89,11 @@ void RenderGeometryInstanceBase::set_lod_bias(float p_lod_bias) {
 	lod_bias = p_lod_bias;
 }
 
+void RenderGeometryInstanceBase::set_lod_selection_mode(RS::LODSelectionMode p_lod_selection_mode ) {
+	lod_selection_mode = p_lod_selection_mode;
+}
+
+
 void RenderGeometryInstanceBase::set_layer_mask(uint32_t p_layer_mask) {
 	layer_mask = p_layer_mask;
 }

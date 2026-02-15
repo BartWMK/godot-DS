@@ -1916,6 +1916,14 @@
 				Sets the level of detail bias to use when rendering the specified 3D geometry instance. Higher values result in higher detail from further away. Equivalent to [member GeometryInstance3D.lod_bias].
 			</description>
 		</method>
+		<method name="instance_geometry_set_lod_selection_mode">
+			<return type="void" />
+			<param index="0" name="instance" type="RID" />
+			<param index="1" name="lod_selection_mode" type="int" enum="RenderingServer.LODSelectionMode" />
+			<description>
+				Sets the method used to select a level of detail when rendering the specified 3D geometry instance. Equivalent to [member GeometryInstance3D.lod_selection_mode].
+			</description>
+		</method>
 		<method name="instance_geometry_set_material_overlay">
 			<return type="void" />
 			<param index="0" name="instance" type="RID" />
@@ -5906,6 +5914,18 @@
 		</constant>
 		<constant name="SHADOW_CASTING_SETTING_SHADOWS_ONLY" value="3" enum="ShadowCastingSetting">
 			Only render the shadows from the object. The object itself will not be drawn.
+		</constant>
+		<constant name="LOD_SELECTION_DEFAULT" value="0" enum="LODSelectionMode">
+			Use the mode set on the camera (NYI, will now default to LOD_SELECTION_SPHERICAL).
+		</constant>
+		<constant name="LOD_SELECTION_SPHERICAL" value="1" enum="LODSelectionMode">
+			Default, use distance from camera position. Best performance, center focussed quality, can have reduced quality LOD's towards edges of viewport depending on camera angle.
+		</constant>
+		<constant name="LOD_SELECTION_PLANAR" value="2" enum="LODSelectionMode">
+			Use distance from camera near frustum plane. Gives vertical uniformity at the cost of performance as more items will draw in higher detail. This can prevent LOD changes when strafing left/right on ultri-wide screens for example. The performance impact and noticability is however highly dependant on camera angle and scene.
+		</constant>
+		<constant name="LOD_SELECTION_PROJECTED" value="3" enum="LODSelectionMode">
+			Use screen area. Gives uniformity across the viewport at significant cost of performance as more items will draw in higher detail. More geared towards 4k and/or ultrawide screen users on 'ultra-settings'. The performance impact and noticability is however highly dependant on camera angle and scene.
 		</constant>
 		<constant name="VISIBILITY_RANGE_FADE_DISABLED" value="0" enum="VisibilityRangeFadeMode" keywords="LOD_FADE_DISABLED">
 			Disable visibility range fading for the given instance.

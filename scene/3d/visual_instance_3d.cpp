@@ -394,6 +394,19 @@ float GeometryInstance3D::get_lod_bias() const {
 	return lod_bias;
 }
 
+void GeometryInstance3D::set_lod_selection_mode(RS::LODSelectionMode p_lod_selection_mode) {
+	if (lod_selection_mode == p_lod_selection_mode) {
+		return;
+	}
+	lod_selection_mode = p_lod_selection_mode;
+    
+	RS::get_singleton()->instance_geometry_set_lod_selection_mode(get_instance(), lod_selection_mode);
+}
+
+RenderingServer::LODSelectionMode GeometryInstance3D::get_lod_selection_mode() const {
+	return lod_selection_mode;
+}
+
 void GeometryInstance3D::set_instance_shader_parameter(const StringName &p_name, const Variant &p_value) {
 	if (p_value.get_type() == Variant::NIL) {
 		Variant def_value = RS::get_singleton()->instance_geometry_get_shader_parameter_default_value(get_instance(), p_name);
@@ -552,6 +565,9 @@ void GeometryInstance3D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_lod_bias", "bias"), &GeometryInstance3D::set_lod_bias);
 	ClassDB::bind_method(D_METHOD("get_lod_bias"), &GeometryInstance3D::get_lod_bias);
 
+	ClassDB::bind_method(D_METHOD("set_lod_selection_mode", "mode"), &GeometryInstance3D::set_lod_selection_mode);
+	ClassDB::bind_method(D_METHOD("get_lod_selection_mode"), &GeometryInstance3D::get_lod_selection_mode);
+
 	ClassDB::bind_method(D_METHOD("set_transparency", "transparency"), &GeometryInstance3D::set_transparency);
 	ClassDB::bind_method(D_METHOD("get_transparency"), &GeometryInstance3D::get_transparency);
 
@@ -603,6 +619,7 @@ void GeometryInstance3D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "extra_cull_margin", PROPERTY_HINT_RANGE, "0,16384,0.01,suffix:m"), "set_extra_cull_margin", "get_extra_cull_margin");
 	ADD_PROPERTY(PropertyInfo(Variant::AABB, "custom_aabb", PROPERTY_HINT_NONE, "suffix:m"), "set_custom_aabb", "get_custom_aabb");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "lod_bias", PROPERTY_HINT_RANGE, "0.001,128,0.001"), "set_lod_bias", "get_lod_bias");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "lod_selection_mode", PROPERTY_HINT_ENUM, "Default,Spherical,Planar,Projected"), "set_lod_selection_mode", "get_lod_selection_mode");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "ignore_occlusion_culling"), "set_ignore_occlusion_culling", "is_ignoring_occlusion_culling");
 
 	ADD_GROUP("Global Illumination", "gi_");

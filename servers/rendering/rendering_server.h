@@ -1523,6 +1523,13 @@ public:
 		VISIBILITY_RANGE_FADE_DEPENDENCIES,
 	};
 
+	enum LODSelectionMode {
+		LOD_SELECTION_DEFAULT,
+		LOD_SELECTION_SPHERICAL,
+		LOD_SELECTION_PLANAR,
+		LOD_SELECTION_PROJECTED
+	};
+
 	virtual void instance_geometry_set_flag(RID p_instance, InstanceFlags p_flags, bool p_enabled) = 0;
 	virtual void instance_geometry_set_cast_shadows_setting(RID p_instance, ShadowCastingSetting p_shadow_casting_setting) = 0;
 	virtual void instance_geometry_set_material_override(RID p_instance, RID p_material) = 0;
@@ -1530,6 +1537,7 @@ public:
 	virtual void instance_geometry_set_visibility_range(RID p_instance, float p_min, float p_max, float p_min_margin, float p_max_margin, VisibilityRangeFadeMode p_fade_mode) = 0;
 	virtual void instance_geometry_set_lightmap(RID p_instance, RID p_lightmap, const Rect2 &p_lightmap_uv_scale, int p_lightmap_slice) = 0;
 	virtual void instance_geometry_set_lod_bias(RID p_instance, float p_lod_bias) = 0;
+	virtual void instance_geometry_set_lod_selection_mode(RID p_instance, LODSelectionMode p_mode) = 0;
 	virtual void instance_geometry_set_transparency(RID p_instance, float p_transparency) = 0;
 
 	virtual void instance_geometry_set_shader_parameter(RID p_instance, const StringName &, const Variant &p_value) = 0;
@@ -1970,6 +1978,7 @@ VARIANT_ENUM_CAST(RenderingServer::ArrayType);
 VARIANT_BITFIELD_CAST(RenderingServer::ArrayFormat);
 VARIANT_ENUM_CAST(RenderingServer::ArrayCustomFormat);
 VARIANT_ENUM_CAST(RenderingServer::PrimitiveType);
+VARIANT_ENUM_CAST(RenderingServer::LODSelectionMode);
 VARIANT_ENUM_CAST(RenderingServer::BlendShapeMode);
 VARIANT_ENUM_CAST(RenderingServer::MultimeshTransformFormat);
 VARIANT_ENUM_CAST(RenderingServer::MultimeshPhysicsInterpolationQuality);
