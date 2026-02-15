@@ -59,7 +59,7 @@
 			Useful for testing level of detail transitions in the editor.
 		</member>
 		<member name="lod_selection_mode" type="float" setter="set_lod_selection_mode" getter="get_lod_selection_mode" enum="GeometryInstance3D.LODSelectionMode" default="0">
-			Mode used for LOD level selection.
+			Mode used for LOD selection.
 		</member>
 		<member name="material_overlay" type="Material" setter="set_material_overlay" getter="get_material_overlay">
 			The material overlay for the whole geometry.
