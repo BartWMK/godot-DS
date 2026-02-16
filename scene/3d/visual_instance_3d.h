@@ -100,10 +100,11 @@ public:
 	};
 
 	enum LODSelectionMode {
-		LOD_SELECTION_USE_CAMERA_MODE = RS::LOD_SELECTION_DEFAULT,
+		LOD_SELECTION_DEFAULT = RS::LOD_SELECTION_DEFAULT,
 		LOD_SELECTION_SPHERICAL = RS::LOD_SELECTION_SPHERICAL,
 		LOD_SELECTION_PLANAR = RS::LOD_SELECTION_PLANAR,
-		LOD_SELECTION_PROJECTED = RS::LOD_SELECTION_PROJECTED
+		LOD_SELECTION_PROJECTED_BALANCED = RS::LOD_SELECTION_PROJECTED_BALANCED,
+		LOD_SELECTION_PROJECTED_STRICT = RS::LOD_SELECTION_PROJECTED_STRICT
 	};
 
 	enum GIMode {
@@ -140,7 +141,7 @@ private:
 	float transparency = 0.0f;
 
 	float lod_bias = 1.0;
-	LODSelectionMode lod_selection_mode = LODSelectionMode::LOD_SELECTION_USE_CAMERA_MODE;
+	LODSelectionMode lod_selection_mode = LOD_SELECTION_DEFAULT;
 
 	mutable HashMap<StringName, Variant> instance_shader_parameters;
 	mutable HashMap<StringName, StringName> instance_shader_parameter_property_remap;

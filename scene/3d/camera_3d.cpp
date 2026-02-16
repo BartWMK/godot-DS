@@ -694,7 +694,7 @@ void Camera3D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "v_offset", PROPERTY_HINT_NONE, "suffix:m"), "set_v_offset", "get_v_offset");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "doppler_tracking", PROPERTY_HINT_ENUM, "Disabled,Idle,Physics"), "set_doppler_tracking", "get_doppler_tracking");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "projection", PROPERTY_HINT_ENUM, "Perspective,Orthogonal,Frustum"), "set_projection", "get_projection");
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "lod_selection_mode", PROPERTY_HINT_ENUM, "Spherical:1,Planar:2,Projected:3"), "set_lod_selection_mode", "get_lod_selection_mode");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "lod_selection_mode", PROPERTY_HINT_ENUM, "Spherical:1,Planar:2,Projected balanced:3,Projected strict:4"), "set_lod_selection_mode", "get_lod_selection_mode");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "current"), "set_current", "is_current");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "fov", PROPERTY_HINT_RANGE, "1,179,0.1,degrees"), "set_fov", "get_fov");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "size", PROPERTY_HINT_RANGE, "0.001,100,0.001,or_greater,suffix:m"), "set_size", "get_size");
@@ -715,7 +715,8 @@ void Camera3D::_bind_methods() {
 
 	BIND_ENUM_CONSTANT(LOD_SELECTION_SPHERICAL);
 	BIND_ENUM_CONSTANT(LOD_SELECTION_PLANAR);
-	BIND_ENUM_CONSTANT(LOD_SELECTION_PROJECTED);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_PROJECTED_BALANCED);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_PROJECTED_STRICT);
 }
 
 real_t Camera3D::get_fov() const {

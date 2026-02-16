@@ -94,17 +94,20 @@
 		</member>
 	</members>
 	<constants>
-		<constant name="LOD_SELECTION_USE_CAMERA_MODE" value="0" enum="LODSelectionMode">
+		<constant name="LOD_SELECTION_DEFAULT" value="0" enum="LODSelectionMode">
 			Use the mode set on the camera.
 		</constant>
 		<constant name="LOD_SELECTION_SPHERICAL" value="1" enum="LODSelectionMode">
-			Default, use distance from camera position. Best performance, center focussed quality, can have reduced quality LOD's towards edges of viewport depending on camera angle.
+			Use approximation of distance to camera position. Best performance, center focussed quality.
 		</constant>
 		<constant name="LOD_SELECTION_PLANAR" value="2" enum="LODSelectionMode">
-			Use distance from camera near frustum plane. Gives vertical uniformity at the cost of performance as more items will draw in higher detail. This can prevent LOD changes when strafing left/right on ultri-wide screens for example. The performance impact and noticability is however highly dependant on camera angle and scene.
+			Use distance to camera near frustum plane. Better LOD uniformity towards screen corners at the cost of performance as more items will draw in higher detail. This can prevent LOD changes of near object when strafing left/right on ultri-wide screens for example. The performance impact and noticability is however highly dependant on camera angle and scene.
 		</constant>
-		<constant name="LOD_SELECTION_PROJECTED" value="3" enum="LODSelectionMode">
-			Use screen area. Gives uniformity across the viewport at significant cost of performance as more items will draw in higher detail. More geared towards 4k and/or ultrawide screen users on 'ultra-settings'. The performance impact and noticability is however highly dependant on camera angle and scene.
+		<constant name="LOD_SELECTION_PROJECTED_BALANCED" value="3" enum="LODSelectionMode">
+			Use mix if planar (distance based) and projected (size based) values. Geared towards 4k and/or ultrawide screen users on 'ultra-settings'. Performance impact can be higher than PLANAR. The performance impact and noticability is highly dependant on camera angle and scene.
+		</constant>
+		<constant name="LOD_SELECTION_PROJECTED_STRICT" value="4" enum="LODSelectionMode">
+			Use projected size. Slowest setting as many more objects will be on higher quality LOD levels; only for specialty items, for example when voxel density of LOD meshes needs to match rendered screen size.
 		</constant>
 		<constant name="SHADOW_CASTING_SETTING_OFF" value="0" enum="ShadowCastingSetting">
 			Will not cast any shadows. Use this to improve performance for small geometry that is unlikely to cast noticeable shadows (such as debris).

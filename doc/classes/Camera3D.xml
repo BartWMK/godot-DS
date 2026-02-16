@@ -215,6 +215,18 @@
 		</member>
 	</members>
 	<constants>
+		<constant name="LOD_SELECTION_SPHERICAL" value="1" enum="LODSelectionMode">
+			Use approximation of distance to camera position. Best performance, center focussed quality.
+		</constant>
+		<constant name="LOD_SELECTION_PLANAR" value="2" enum="LODSelectionMode">
+			Use distance to camera near frustum plane. Better LOD uniformity towards screen corners at the cost of performance as more items will draw in higher detail. This can prevent LOD changes of near object when strafing left/right on ultri-wide screens for example. The performance impact and noticability is however highly dependant on camera angle and scene.
+		</constant>
+		<constant name="LOD_SELECTION_PROJECTED_BALANCED" value="3" enum="LODSelectionMode">
+			Use mix of planar (distance based) and projected (size based) values. Geared towards 4k and/or ultrawide screen users on 'ultra-settings'. Performance impact can be higher than PLANAR. The performance impact and noticability is highly dependant on camera angle and scene.
+		</constant>
+		<constant name="LOD_SELECTION_PROJECTED_STRICT" value="4" enum="LODSelectionMode">
+			Use projected size. Slowest setting as many more objects will be on higher quality LOD levels; only for specialty items, for example when voxel density of LOD meshes needs to match rendered screen size.
+		</constant>
 		<constant name="PROJECTION_PERSPECTIVE" value="0" enum="ProjectionType">
 			Perspective projection. Objects on the screen becomes smaller when they are far away.
 		</constant>

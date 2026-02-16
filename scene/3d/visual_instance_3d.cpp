@@ -399,7 +399,7 @@ void GeometryInstance3D::set_lod_selection_mode(LODSelectionMode p_lod_selection
 		return;
 	}
 	lod_selection_mode = p_lod_selection_mode;
-    
+
 	RS::get_singleton()->instance_geometry_set_lod_selection_mode(get_instance(), (RS::LODSelectionMode)lod_selection_mode);
 }
 
@@ -655,10 +655,11 @@ void GeometryInstance3D::_bind_methods() {
 	BIND_ENUM_CONSTANT(VISIBILITY_RANGE_FADE_SELF);
 	BIND_ENUM_CONSTANT(VISIBILITY_RANGE_FADE_DEPENDENCIES);
 
-	BIND_ENUM_CONSTANT(LOD_SELECTION_USE_CAMERA_MODE);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_DEFAULT);
 	BIND_ENUM_CONSTANT(LOD_SELECTION_SPHERICAL);
 	BIND_ENUM_CONSTANT(LOD_SELECTION_PLANAR);
-	BIND_ENUM_CONSTANT(LOD_SELECTION_PROJECTED);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_PROJECTED_BALANCED);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_PROJECTED_STRICT);
 }
 
 GeometryInstance3D::GeometryInstance3D() {

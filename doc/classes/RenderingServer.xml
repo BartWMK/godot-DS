@@ -5922,10 +5922,13 @@
 			Default, use distance from camera position. Best performance, center focussed quality, can have reduced quality LOD's towards edges of viewport depending on camera angle.
 		</constant>
 		<constant name="LOD_SELECTION_PLANAR" value="2" enum="LODSelectionMode">
-			Use distance from camera near frustum plane. Gives vertical uniformity at the cost of performance as more items will draw in higher detail. This can prevent LOD changes when strafing left/right on ultri-wide screens for example. The performance impact and noticability is however highly dependant on camera angle and scene.
+			Use distance from camera near frustum plane. Gives vertical uniformity at the cost of performance as more items will draw in higher detail. This can prevent LOD changes when strafing left/right on ultri-wide screens for example. The performance impact and noticability is highly dependant on camera angle and scene.
 		</constant>
-		<constant name="LOD_SELECTION_PROJECTED" value="3" enum="LODSelectionMode">
-			Use screen area. Gives uniformity across the viewport at significant cost of performance as more items will draw in higher detail. More geared towards 4k and/or ultrawide screen users on 'ultra-settings'. The performance impact and noticability is however highly dependant on camera angle and scene.
+		<constant name="LOD_SELECTION_PROJECTED_BALANCED" value="3" enum="LODSelectionMode">
+			Mix between planar and projected screen size. Geared towards 4k and/or ultrawide screen users on 'ultra-settings'. This mode The performance impact and noticability is however highly dependant on camera angle and scene.
+		</constant>
+		<constant name="LOD_SELECTION_PROJECTED_STRICT" value="4" enum="LODSelectionMode">
+			Stricly use screen area. Items in corners can have more quality then center due to their larger surface size. For technical cases where consistent pixel-size matching of LODs is relevant. This is not aimed at user-controlled quality settings. The performance impact can be very significant but also highly dependant on camera angle and scene.
 		</constant>
 		<constant name="VISIBILITY_RANGE_FADE_DISABLED" value="0" enum="VisibilityRangeFadeMode" keywords="LOD_FADE_DISABLED">
 			Disable visibility range fading for the given instance.

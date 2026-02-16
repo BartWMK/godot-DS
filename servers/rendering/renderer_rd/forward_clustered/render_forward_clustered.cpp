@@ -1091,7 +1091,7 @@ void RenderForwardClustered::_fill_render_list(RenderListType p_render_list, con
 					Vector3 aabb_max = inst->transformed_aabb.position + inst->transformed_aabb.size;
 					Vector3 surface_distance = Vector3(0.0, 0.0, 0.0).max(aabb_min - camera_position).max(camera_position - aabb_max);
 					lod_distance = surface_distance.length();
-					
+
 				} break;
 
 				case RS::LOD_SELECTION_PLANAR: {
@@ -1101,7 +1101,26 @@ void RenderForwardClustered::_fill_render_list(RenderListType p_render_list, con
 					lod_distance = offset.dot(cam_forward);
 				} break;
 
-				/*case RS::LOD_SELECTION_PROJECTED: {
+				case RS::LOD_SELECTION_PROJECTED_BALANCED: {
+					Vector3 cam_forward = -camera_transform.basis.get_column(2);
+					Vector3 aabb_center = inst->use_aabb_center ? center : inst->transformed_aabb.get_center();
+					Vector3 offset = aabb_center - camera_position;
+
+					float depth = offset.dot(cam_forward);
+
+					Vector3 extents = inst->transformed_aabb.size * 0.5f;
+					float projected_radius = cam_forward.abs().dot(extents);
+
+					Vector3 lateral_vector = offset - (cam_forward * depth);
+					float lateral_dist = lateral_vector.length();
+
+					// 0.25 is a factor, Higher = more detail at edges, Lower = more like Planar.
+					float stretch_compensation = lateral_dist * 0.25f;
+					lod_distance = (depth - projected_radius) - stretch_compensation;
+					lod_distance *= 1.1; // Move 0.5 position to be more in line with the other modes
+				} break;
+
+				case RS::LOD_SELECTION_PROJECTED_STRICT: {
 					Basis camera_basis = camera_transform.basis;
 
 					Vector3 cam_forward = -camera_basis.get_column(2);
@@ -1116,27 +1135,8 @@ void RenderForwardClustered::_fill_render_list(RenderListType p_render_list, con
 					float vertical_dist = Math::abs(offset.dot(cam_up));
 
 					float radius = inst->transformed_aabb.size.length() * 0.5f;
-					float stretch_compensation = MAX(lateral_dist, vertical_dist) * 0.5f; 
+					float stretch_compensation = MAX(lateral_dist, vertical_dist) * 0.5f;
 					lod_distance = (depth - stretch_compensation) - radius;
-				} break;*/
-
-				case RS::LOD_SELECTION_PROJECTED: {
-    					Vector3 cam_forward = -camera_transform.basis.get_column(2);
-    					Vector3 aabb_center = inst->use_aabb_center ? center : inst->transformed_aabb.get_center();
-    					Vector3 offset = aabb_center - camera_position;
-
-					float depth = offset.dot(cam_forward);
-
-   					Vector3 extents = inst->transformed_aabb.size * 0.5f;
-    					float projected_radius = cam_forward.abs().dot(extents);
-
-  					Vector3 lateral_vector = offset - (cam_forward * depth);
-    					float lateral_dist = lateral_vector.length();
-    
-					// 0.25 is a factor, Higher = more detail at edges, Lower = more like Planar.
-  					float stretch_compensation = lateral_dist * 0.25f; 
-					lod_distance = (depth - projected_radius) - stretch_compensation;
- 					lod_distance *= 1.1; # Move 0.5 position to be more in line with the other modes
 				} break;
 			}
 
