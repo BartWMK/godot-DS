@@ -88,6 +88,7 @@ public:
 		RID compositor;
 
 		Transform3D transform;
+		RS::LODSelectionMode lod_selection_mode;
 
 		Camera() {
 			visible_layers = 0xFFFFFFFF;
@@ -98,6 +99,7 @@ public:
 			size = 1.0;
 			offset = Vector2();
 			vaspect = false;
+			lod_selection_mode = RS::LOD_SELECTION_SPHERICAL;
 		}
 	};
 
@@ -110,6 +112,7 @@ public:
 	virtual void camera_set_orthogonal(RID p_camera, float p_size, float p_z_near, float p_z_far);
 	virtual void camera_set_frustum(RID p_camera, float p_size, Vector2 p_offset, float p_z_near, float p_z_far);
 	virtual void camera_set_transform(RID p_camera, const Transform3D &p_transform);
+	virtual void camera_set_lod_selection_mode(RID p_camera, RS::LODSelectionMode);
 	virtual void camera_set_cull_mask(RID p_camera, uint32_t p_layers);
 	virtual void camera_set_environment(RID p_camera, RID p_env);
 	virtual void camera_set_camera_attributes(RID p_camera, RID p_attributes);
@@ -412,7 +415,7 @@ public:
 		bool teleported = false;
 
 		float lod_bias;
-		RS::LODSelectionMode lod_selection_mode = RS::LOD_SELECTION_SPHERICAL;
+		RS::LODSelectionMode lod_selection_mode = RS::LOD_SELECTION_DEFAULT;
 
 		bool ignore_occlusion_culling;
 		bool ignore_all_culling;
@@ -575,7 +578,7 @@ public:
 			lightmap = nullptr;
 			lightmap_cull_index = 0;
 			lod_bias = 1.0;
-			lod_selection_mode = RS::LOD_SELECTION_SPHERICAL;
+			lod_selection_mode = RS::LOD_SELECTION_DEFAULT;
 			ignore_occlusion_culling = false;
 			ignore_all_culling = false;
 

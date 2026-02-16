@@ -35,6 +35,8 @@
 #include "core/object/object.h"
 #include "core/object/script_language.h"
 
+#include "servers/rendering/rendering_server.h"
+
 class RenderSceneData : public Object {
 	GDCLASS(RenderSceneData, Object);
 
@@ -44,6 +46,8 @@ protected:
 public:
 	virtual Transform3D get_cam_transform() const = 0;
 	virtual Projection get_cam_projection() const = 0;
+
+	virtual RenderingServer::LODSelectionMode get_cam_lod_selection_mode() const = 0;
 
 	virtual uint32_t get_view_count() const = 0;
 	virtual Vector3 get_view_eye_offset(uint32_t p_view) const = 0;
@@ -62,6 +66,8 @@ public:
 	virtual Transform3D get_cam_transform() const override;
 	virtual Projection get_cam_projection() const override;
 
+	virtual RenderingServer::LODSelectionMode get_cam_lod_selection_mode() const override;
+
 	virtual uint32_t get_view_count() const override;
 	virtual Vector3 get_view_eye_offset(uint32_t p_view) const override;
 	virtual Projection get_view_projection(uint32_t p_view) const override;
@@ -70,6 +76,8 @@ public:
 
 	GDVIRTUAL0RC(Transform3D, _get_cam_transform)
 	GDVIRTUAL0RC(Projection, _get_cam_projection)
+
+	GDVIRTUAL0RC(uint32_t, _get_cam_lod_selection_mode)
 
 	GDVIRTUAL0RC(uint32_t, _get_view_count)
 	GDVIRTUAL1RC(Vector3, _get_view_eye_offset, uint32_t)

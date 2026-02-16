@@ -41,6 +41,12 @@ class Camera3D : public Node3D {
 	GDCLASS(Camera3D, Node3D);
 
 public:
+	enum LODSelectionMode {
+		LOD_SELECTION_SPHERICAL = RS::LOD_SELECTION_SPHERICAL,
+		LOD_SELECTION_PLANAR = RS::LOD_SELECTION_PLANAR,
+		LOD_SELECTION_PROJECTED = RS::LOD_SELECTION_PROJECTED
+	};
+
 	enum ProjectionType {
 		PROJECTION_PERSPECTIVE,
 		PROJECTION_ORTHOGONAL,
@@ -64,6 +70,7 @@ private:
 	Viewport *viewport = nullptr;
 
 	ProjectionType mode = PROJECTION_PERSPECTIVE;
+	LODSelectionMode lod_selection_mode = LOD_SELECTION_SPHERICAL;
 
 	InterpolatedProperty<real_t> fov = 75.0;
 	InterpolatedProperty<real_t> size = 1.0;
@@ -156,6 +163,9 @@ public:
 
 	ProjectionType get_projection() const;
 
+	void set_lod_selection_mode(LODSelectionMode p_mode);
+	LODSelectionMode get_lod_selection_mode() const;
+
 	void set_fov(real_t p_fov);
 	void set_size(real_t p_size);
 	void set_far(real_t p_far);
@@ -214,6 +224,7 @@ public:
 	~Camera3D();
 };
 
+VARIANT_ENUM_CAST(Camera3D::LODSelectionMode);
 VARIANT_ENUM_CAST(Camera3D::ProjectionType);
 VARIANT_ENUM_CAST(Camera3D::KeepAspect);
 VARIANT_ENUM_CAST(Camera3D::DopplerTracking);

@@ -107,6 +107,13 @@ void RendererSceneCull::camera_set_frustum(RID p_camera, float p_size, Vector2 p
 	camera->zfar = p_z_far;
 }
 
+void RendererSceneCull::camera_set_lod_selection_mode(RID p_camera, RS::LODSelectionMode p_lod_selection_mode) {
+	Camera *camera = camera_owner.get_or_null(p_camera);
+	ERR_FAIL_NULL(camera);
+
+	camera->lod_selection_mode = p_lod_selection_mode;
+}
+
 void RendererSceneCull::camera_set_transform(RID p_camera, const Transform3D &p_transform) {
 	Camera *camera = camera_owner.get_or_null(p_camera);
 	ERR_FAIL_NULL(camera);
@@ -2670,7 +2677,7 @@ void RendererSceneCull::render_camera(const Ref<RenderSceneBuffers> &p_render_bu
 			} break;
 		}
 
-		camera_data.set_camera(transform, projection, is_orthogonal, is_frustum, vaspect, jitter, taa_frame_count, camera->visible_layers);
+		camera_data.set_camera(transform, projection, is_orthogonal, is_frustum, vaspect, jitter, taa_frame_count, camera->visible_layers, camera->lod_selection_mode);
 #ifndef XR_DISABLED
 	} else {
 		XRServer *xr_server = XRServer::get_singleton();
@@ -2703,7 +2710,7 @@ void RendererSceneCull::render_camera(const Ref<RenderSceneBuffers> &p_render_bu
 		}
 
 		if (view_count == 1) {
-			camera_data.set_camera(transforms[0], projections[0], false, false, camera->vaspect, jitter, p_jitter_phase_count, camera->visible_layers);
+			camera_data.set_camera(transforms[0], projections[0], false, false, camera->vaspect, jitter, p_jitter_phase_count, camera->visible_layers, camera->lod_selection_mode);
 		} else if (view_count == 2) {
 			camera_data.set_multiview_camera(view_count, transforms, projections, false, false, camera->vaspect, camera->visible_layers);
 		} else {

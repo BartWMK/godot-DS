@@ -943,6 +943,7 @@ void RenderForwardClustered::_fill_render_list(RenderListType p_render_list, con
 	}
 
 	Transform3D camera_transform = p_render_data->scene_data->main_cam_transform;
+	RS::LODSelectionMode camera_lod_selection_mode = p_render_data->scene_data->cam_lod_selection_mode;
 
 	//fill list
 	for (int i = 0; i < (int)p_render_data->instances->size(); i++) {
@@ -1081,7 +1082,9 @@ void RenderForwardClustered::_fill_render_list(RenderListType p_render_list, con
 		} else {
 			Vector3 camera_position = camera_transform.origin;
 
-			switch (inst->lod_selection_mode) {
+			RS::LODSelectionMode lod_selection_mode = inst->lod_selection_mode == RS::LOD_SELECTION_DEFAULT ? camera_lod_selection_mode : inst->lod_selection_mode;
+
+			switch (lod_selection_mode) {
 				case RS::LOD_SELECTION_SPHERICAL:
 				default: {
 					Vector3 aabb_min = inst->transformed_aabb.position;
@@ -1097,8 +1100,8 @@ void RenderForwardClustered::_fill_render_list(RenderListType p_render_list, con
 					Vector3 offset = aabb_center - camera_position;
 					lod_distance = offset.dot(cam_forward);
 				} break;
-/*
-				case RS::LOD_SELECTION_PROJECTED: {
+
+				/*case RS::LOD_SELECTION_PROJECTED: {
 					Basis camera_basis = camera_transform.basis;
 
 					Vector3 cam_forward = -camera_basis.get_column(2);
@@ -1115,40 +1118,26 @@ void RenderForwardClustered::_fill_render_list(RenderListType p_render_list, con
 					float radius = inst->transformed_aabb.size.length() * 0.5f;
 					float stretch_compensation = MAX(lateral_dist, vertical_dist) * 0.5f; 
 					lod_distance = (depth - stretch_compensation) - radius;
-					//lod_distance *= 1.65;
-				} break;
-*/
-// Version 2
+				} break;*/
 
-case RS::LOD_SELECTION_PROJECTED: {
-    Vector3 cam_forward = -camera_transform.basis.get_column(2);
-    Vector3 aabb_center = inst->use_aabb_center ? center : inst->transformed_aabb.get_center();
-    Vector3 offset = aabb_center - camera_position;
+				case RS::LOD_SELECTION_PROJECTED: {
+    					Vector3 cam_forward = -camera_transform.basis.get_column(2);
+    					Vector3 aabb_center = inst->use_aabb_center ? center : inst->transformed_aabb.get_center();
+    					Vector3 offset = aabb_center - camera_position;
 
-    // 1. Get the depth along the camera axis (This is your Planar baseline)
-    float depth = offset.dot(cam_forward);
+					float depth = offset.dot(cam_forward);
 
-    // 2. Calculate the "Geometric Radius" (Distance from center to front face)
-    // We use the absolute dot product to find how far the box extends toward the camera
-    Vector3 extents = inst->transformed_aabb.size * 0.5f;
-    float projected_radius = cam_forward.abs().dot(extents);
+   					Vector3 extents = inst->transformed_aabb.size * 0.5f;
+    					float projected_radius = cam_forward.abs().dot(extents);
 
-    // 3. Calculate Perspective Stretch
-    // We only want to subtract stretch_compensation when the object is NOT in the center.
-    Vector3 lateral_vector = offset - (cam_forward * depth);
-    float lateral_dist = lateral_vector.length();
+  					Vector3 lateral_vector = offset - (cam_forward * depth);
+    					float lateral_dist = lateral_vector.length();
     
-    // This factor (0.15) controls how much detail is kept at the edges. 
-    // Higher = more detail at edges, Lower = more like Planar.
-    float stretch_compensation = lateral_dist * 0.25f; 
-
-    // 4. THE FIX: 
-    // We use depth - projected_radius to match the "front face" logic of Planar.
-    // We only apply stretch_compensation to offset the perspective shrinkage.
-    lod_distance = (depth - projected_radius) - stretch_compensation;
-    lod_distance *= 1.1;
-} break;
-
+					// 0.25 is a factor, Higher = more detail at edges, Lower = more like Planar.
+  					float stretch_compensation = lateral_dist * 0.25f; 
+					lod_distance = (depth - projected_radius) - stretch_compensation;
+ 					lod_distance *= 1.1; # Move 0.5 position to be more in line with the other modes
+				} break;
 			}
 
 			lod_distance = (lod_distance> 0.0f) ? lod_distance: 0.0f;

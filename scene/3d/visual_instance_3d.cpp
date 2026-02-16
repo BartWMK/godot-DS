@@ -394,16 +394,16 @@ float GeometryInstance3D::get_lod_bias() const {
 	return lod_bias;
 }
 
-void GeometryInstance3D::set_lod_selection_mode(RS::LODSelectionMode p_lod_selection_mode) {
+void GeometryInstance3D::set_lod_selection_mode(LODSelectionMode p_lod_selection_mode) {
 	if (lod_selection_mode == p_lod_selection_mode) {
 		return;
 	}
 	lod_selection_mode = p_lod_selection_mode;
     
-	RS::get_singleton()->instance_geometry_set_lod_selection_mode(get_instance(), lod_selection_mode);
+	RS::get_singleton()->instance_geometry_set_lod_selection_mode(get_instance(), (RS::LODSelectionMode)lod_selection_mode);
 }
 
-RenderingServer::LODSelectionMode GeometryInstance3D::get_lod_selection_mode() const {
+GeometryInstance3D::LODSelectionMode GeometryInstance3D::get_lod_selection_mode() const {
 	return lod_selection_mode;
 }
 
@@ -654,6 +654,11 @@ void GeometryInstance3D::_bind_methods() {
 	BIND_ENUM_CONSTANT(VISIBILITY_RANGE_FADE_DISABLED);
 	BIND_ENUM_CONSTANT(VISIBILITY_RANGE_FADE_SELF);
 	BIND_ENUM_CONSTANT(VISIBILITY_RANGE_FADE_DEPENDENCIES);
+
+	BIND_ENUM_CONSTANT(LOD_SELECTION_USE_CAMERA_MODE);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_SPHERICAL);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_PLANAR);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_PROJECTED);
 }
 
 GeometryInstance3D::GeometryInstance3D() {

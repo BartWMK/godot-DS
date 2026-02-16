@@ -931,6 +931,14 @@ public:
 
 	/* CAMERA API */
 
+	enum LODSelectionMode {
+		LOD_SELECTION_DEFAULT,
+		LOD_SELECTION_SPHERICAL,
+		LOD_SELECTION_PLANAR,
+		LOD_SELECTION_PROJECTED
+		//LOD_SELECTION_PROJECTED_STRICT
+	};
+
 	virtual RID camera_create() = 0;
 	virtual void camera_set_perspective(RID p_camera, float p_fovy_degrees, float p_z_near, float p_z_far) = 0;
 	virtual void camera_set_orthogonal(RID p_camera, float p_size, float p_z_near, float p_z_far) = 0;
@@ -941,6 +949,7 @@ public:
 	virtual void camera_set_camera_attributes(RID p_camera, RID p_camera_attributes) = 0;
 	virtual void camera_set_compositor(RID p_camera, RID p_compositor) = 0;
 	virtual void camera_set_use_vertical_aspect(RID p_camera, bool p_enable) = 0;
+	virtual void camera_set_lod_selection_mode(RID p_camera, LODSelectionMode p_lod_selection_mode) = 0;
 
 	/* VIEWPORT API */
 
@@ -1521,13 +1530,6 @@ public:
 		VISIBILITY_RANGE_FADE_DISABLED,
 		VISIBILITY_RANGE_FADE_SELF,
 		VISIBILITY_RANGE_FADE_DEPENDENCIES,
-	};
-
-	enum LODSelectionMode {
-		LOD_SELECTION_DEFAULT,
-		LOD_SELECTION_SPHERICAL,
-		LOD_SELECTION_PLANAR,
-		LOD_SELECTION_PROJECTED
 	};
 
 	virtual void instance_geometry_set_flag(RID p_instance, InstanceFlags p_flags, bool p_enabled) = 0;

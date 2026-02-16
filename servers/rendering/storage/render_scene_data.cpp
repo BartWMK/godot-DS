@@ -34,6 +34,8 @@ void RenderSceneData::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_cam_transform"), &RenderSceneData::get_cam_transform);
 	ClassDB::bind_method(D_METHOD("get_cam_projection"), &RenderSceneData::get_cam_projection);
 
+	ClassDB::bind_method(D_METHOD("get_cam_lod_selection_mode"), &RenderSceneData::get_cam_lod_selection_mode);
+
 	ClassDB::bind_method(D_METHOD("get_view_count"), &RenderSceneData::get_view_count);
 	ClassDB::bind_method(D_METHOD("get_view_eye_offset", "view"), &RenderSceneData::get_view_eye_offset);
 	ClassDB::bind_method(D_METHOD("get_view_projection", "view"), &RenderSceneData::get_view_projection);
@@ -44,6 +46,7 @@ void RenderSceneData::_bind_methods() {
 void RenderSceneDataExtension::_bind_methods() {
 	GDVIRTUAL_BIND(_get_cam_transform);
 	GDVIRTUAL_BIND(_get_cam_projection);
+	GDVIRTUAL_BIND(_get_cam_lod_selection_mode);
 	GDVIRTUAL_BIND(_get_view_count);
 	GDVIRTUAL_BIND(_get_view_eye_offset, "view");
 	GDVIRTUAL_BIND(_get_view_projection, "view");
@@ -61,6 +64,12 @@ Projection RenderSceneDataExtension::get_cam_projection() const {
 	Projection ret;
 	GDVIRTUAL_CALL(_get_cam_projection, ret);
 	return ret;
+}
+
+RS::LODSelectionMode RenderSceneDataExtension::get_cam_lod_selection_mode() const {
+	uint32_t ret = 0;
+	GDVIRTUAL_CALL(_get_cam_lod_selection_mode, ret);
+	return (RS::LODSelectionMode)ret;
 }
 
 uint32_t RenderSceneDataExtension::get_view_count() const {

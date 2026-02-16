@@ -44,6 +44,8 @@ public:
 
 	Transform3D cam_transform;
 	Projection cam_projection;
+	RS::LODSelectionMode cam_lod_selection_mode;
+	
 	Vector2 taa_jitter;
 	float taa_frame_count = 0.0f;
 	uint32_t camera_visible_layers;
@@ -89,6 +91,8 @@ public:
 
 	virtual Transform3D get_cam_transform() const override;
 	virtual Projection get_cam_projection() const override;
+
+	virtual RS::LODSelectionMode get_cam_lod_selection_mode() const override;
 
 	virtual uint32_t get_view_count() const override;
 	virtual Vector3 get_view_eye_offset(uint32_t p_view) const override;

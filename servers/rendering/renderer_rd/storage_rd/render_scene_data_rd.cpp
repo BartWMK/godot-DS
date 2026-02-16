@@ -37,6 +37,10 @@ Transform3D RenderSceneDataRD::get_cam_transform() const {
 	return cam_transform;
 }
 
+RS::LODSelectionMode RenderSceneDataRD::get_cam_lod_selection_mode() const {
+	return cam_lod_selection_mode;
+}
+
 Projection RenderSceneDataRD::get_cam_projection() const {
 	Projection correction;
 	correction.set_depth_correction(flip_y);

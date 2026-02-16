@@ -59,7 +59,7 @@
 			Useful for testing level of detail transitions in the editor.
 		</member>
 		<member name="lod_selection_mode" type="float" setter="set_lod_selection_mode" getter="get_lod_selection_mode" enum="GeometryInstance3D.LODSelectionMode" default="0">
-			Mode used for LOD selection.
+			Mode used for LOD level selection.
 		</member>
 		<member name="material_overlay" type="Material" setter="set_material_overlay" getter="get_material_overlay">
 			The material overlay for the whole geometry.
@@ -94,6 +94,18 @@
 		</member>
 	</members>
 	<constants>
+		<constant name="LOD_SELECTION_USE_CAMERA_MODE" value="0" enum="LODSelectionMode">
+			Use the mode set on the camera.
+		</constant>
+		<constant name="LOD_SELECTION_SPHERICAL" value="1" enum="LODSelectionMode">
+			Default, use distance from camera position. Best performance, center focussed quality, can have reduced quality LOD's towards edges of viewport depending on camera angle.
+		</constant>
+		<constant name="LOD_SELECTION_PLANAR" value="2" enum="LODSelectionMode">
+			Use distance from camera near frustum plane. Gives vertical uniformity at the cost of performance as more items will draw in higher detail. This can prevent LOD changes when strafing left/right on ultri-wide screens for example. The performance impact and noticability is however highly dependant on camera angle and scene.
+		</constant>
+		<constant name="LOD_SELECTION_PROJECTED" value="3" enum="LODSelectionMode">
+			Use screen area. Gives uniformity across the viewport at significant cost of performance as more items will draw in higher detail. More geared towards 4k and/or ultrawide screen users on 'ultra-settings'. The performance impact and noticability is however highly dependant on camera angle and scene.
+		</constant>
 		<constant name="SHADOW_CASTING_SETTING_OFF" value="0" enum="ShadowCastingSetting">
 			Will not cast any shadows. Use this to improve performance for small geometry that is unlikely to cast noticeable shadows (such as debris).
 		</constant>

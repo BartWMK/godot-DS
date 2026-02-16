@@ -613,6 +613,19 @@ Camera3D::DopplerTracking Camera3D::get_doppler_tracking() const {
 	return doppler_tracking;
 }
 
+void Camera3D::set_lod_selection_mode(LODSelectionMode p_mode) {
+	if (lod_selection_mode == p_mode) {
+		return;
+	}
+	lod_selection_mode = p_mode;
+	update_configuration_warnings();
+	RS::get_singleton()->camera_set_lod_selection_mode(get_camera(), (RS::LODSelectionMode)p_mode);
+}
+
+Camera3D::LODSelectionMode Camera3D::get_lod_selection_mode() const {
+	return lod_selection_mode;
+}
+
 void Camera3D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("project_ray_normal", "screen_point"), &Camera3D::project_ray_normal);
 	ClassDB::bind_method(D_METHOD("project_local_ray_normal", "screen_point"), &Camera3D::project_local_ray_normal);
@@ -660,6 +673,9 @@ void Camera3D::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_frustum"), &Camera3D::_get_frustum);
 	ClassDB::bind_method(D_METHOD("is_position_in_frustum", "world_point"), &Camera3D::is_position_in_frustum);
 	ClassDB::bind_method(D_METHOD("get_camera_rid"), &Camera3D::get_camera);
+	ClassDB::bind_method(D_METHOD("set_lod_selection_mode", "mode"), &Camera3D::set_lod_selection_mode);
+	ClassDB::bind_method(D_METHOD("get_lod_selection_mode"), &Camera3D::get_lod_selection_mode);
+
 #ifndef PHYSICS_3D_DISABLED
 	ClassDB::bind_method(D_METHOD("get_pyramid_shape_rid"), &Camera3D::get_pyramid_shape_rid);
 #endif // PHYSICS_3D_DISABLED
@@ -678,6 +694,7 @@ void Camera3D::_bind_methods() {
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "v_offset", PROPERTY_HINT_NONE, "suffix:m"), "set_v_offset", "get_v_offset");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "doppler_tracking", PROPERTY_HINT_ENUM, "Disabled,Idle,Physics"), "set_doppler_tracking", "get_doppler_tracking");
 	ADD_PROPERTY(PropertyInfo(Variant::INT, "projection", PROPERTY_HINT_ENUM, "Perspective,Orthogonal,Frustum"), "set_projection", "get_projection");
+	ADD_PROPERTY(PropertyInfo(Variant::INT, "lod_selection_mode", PROPERTY_HINT_ENUM, "Spherical:1,Planar:2,Projected:3"), "set_lod_selection_mode", "get_lod_selection_mode");
 	ADD_PROPERTY(PropertyInfo(Variant::BOOL, "current"), "set_current", "is_current");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "fov", PROPERTY_HINT_RANGE, "1,179,0.1,degrees"), "set_fov", "get_fov");
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "size", PROPERTY_HINT_RANGE, "0.001,100,0.001,or_greater,suffix:m"), "set_size", "get_size");
@@ -695,6 +712,10 @@ void Camera3D::_bind_methods() {
 	BIND_ENUM_CONSTANT(DOPPLER_TRACKING_DISABLED);
 	BIND_ENUM_CONSTANT(DOPPLER_TRACKING_IDLE_STEP);
 	BIND_ENUM_CONSTANT(DOPPLER_TRACKING_PHYSICS_STEP);
+
+	BIND_ENUM_CONSTANT(LOD_SELECTION_SPHERICAL);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_PLANAR);
+	BIND_ENUM_CONSTANT(LOD_SELECTION_PROJECTED);
 }
 
 real_t Camera3D::get_fov() const {

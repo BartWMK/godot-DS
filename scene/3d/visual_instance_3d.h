@@ -99,6 +99,13 @@ public:
 		SHADOW_CASTING_SETTING_SHADOWS_ONLY = RS::SHADOW_CASTING_SETTING_SHADOWS_ONLY
 	};
 
+	enum LODSelectionMode {
+		LOD_SELECTION_USE_CAMERA_MODE = RS::LOD_SELECTION_DEFAULT,
+		LOD_SELECTION_SPHERICAL = RS::LOD_SELECTION_SPHERICAL,
+		LOD_SELECTION_PLANAR = RS::LOD_SELECTION_PLANAR,
+		LOD_SELECTION_PROJECTED = RS::LOD_SELECTION_PROJECTED
+	};
+
 	enum GIMode {
 		GI_MODE_DISABLED,
 		GI_MODE_STATIC,
@@ -133,7 +140,7 @@ private:
 	float transparency = 0.0f;
 
 	float lod_bias = 1.0;
-	RenderingServer::LODSelectionMode lod_selection_mode = RenderingServer::LOD_SELECTION_DEFAULT;
+	LODSelectionMode lod_selection_mode = LODSelectionMode::LOD_SELECTION_USE_CAMERA_MODE;
 
 	mutable HashMap<StringName, Variant> instance_shader_parameters;
 	mutable HashMap<StringName, StringName> instance_shader_parameter_property_remap;
@@ -188,8 +195,8 @@ public:
 	void set_lod_bias(float p_bias);
 	float get_lod_bias() const;
 
-	void set_lod_selection_mode(RenderingServer::LODSelectionMode p_mode);
-	RenderingServer::LODSelectionMode get_lod_selection_mode() const;
+	void set_lod_selection_mode(LODSelectionMode p_mode);
+	LODSelectionMode get_lod_selection_mode() const;
 
 	void set_gi_mode(GIMode p_mode);
 	GIMode get_gi_mode() const;
@@ -218,6 +225,7 @@ public:
 	virtual ~GeometryInstance3D();
 };
 
+VARIANT_ENUM_CAST(GeometryInstance3D::LODSelectionMode);
 VARIANT_ENUM_CAST(GeometryInstance3D::ShadowCastingSetting);
 VARIANT_ENUM_CAST(GeometryInstance3D::GIMode);
 VARIANT_ENUM_CAST(GeometryInstance3D::LightmapScale);
